@@ -38,7 +38,7 @@ class TreatmentIntakeService
 
         $package->loadMissing('service');
         $questions = $package->service?->bookingQuestionRows() ?? [];
-        if ($questions === [] && ! $package->service?->requires_signature) {
+        if ($questions === []) {
             return null;
         }
 
@@ -74,7 +74,7 @@ class TreatmentIntakeService
 
         $appointment->loadMissing('service');
         $questions = $appointment->service?->bookingQuestionRows() ?? [];
-        if ($questions === [] && ! $appointment->service?->requires_signature) {
+        if ($questions === []) {
             return $existing;
         }
 

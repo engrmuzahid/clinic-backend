@@ -47,12 +47,12 @@ class TreatmentIntake extends Model
         return $this->hasMany(TreatmentIntakeAnswer::class)->orderBy('sort_order')->orderBy('id');
     }
 
+    /**
+     * Every questions form must be signed before it can be submitted.
+     */
     public function requiresSignature(): bool
     {
-        $this->loadMissing(['package.service', 'appointment.service']);
-
-        return (bool) ($this->package?->service?->requires_signature
-            ?: $this->appointment?->service?->requires_signature);
+        return true;
     }
 
     public function publicUrl(): string

@@ -154,6 +154,25 @@ class AppointmentController extends Controller
             $updates['payment_status'] = $updates['payment_status'] ?? 'free';
         }
 
+        $rescheduling = isset($updates['appointment_date']) || isset($updates['appointment_time']);
+        if ($rescheduling) {
+            $newDate = $updates['appointment_date'] ?? $appointment->appointment_date->toDateString();
+            $newTime = $updates['appointment_time'] ?? $appointment->appointment_time;
+            $changed = $newDate !== $appointment->appointment_date->toDateString()
+                || $newTime !== $appointment->appointment_time;
+
+            if ($changed) {
+                $day = Carbon::parse($newDate);
+                $free = $this->availabilityService
+                    ->getSlots((int) $appointment->clinic_id, [], $day->copy()->startOfDay(), $day->copy()->endOfDay())
+                    ->contains(fn ($slot) => $slot['timeLabel'] === $newTime);
+
+                if (! $free) {
+                    return response()->json(['message' => 'That time is not available. Please choose another slot.'], 422);
+                }
+            }
+        }
+
         $appointment->update($updates);
 
         return response()->json(['data' => $appointment->fresh(['clinic', 'service'])->toApi()]);
