@@ -15,10 +15,10 @@ class AvailabilityService
     /** Appointment / meeting length and slot spacing, in minutes. */
     public const APPOINTMENT_MINUTES = 30;
 
-    /** Used when a clinic has no schedule rows: Mon-Fri, 10:00 - 19:00. */
+    /** Used when a clinic has no schedule rows: Mon-Fri, 10:00 - 20:00. */
     public const DEFAULT_OPEN = '10:00';
 
-    public const DEFAULT_CLOSE = '19:00';
+    public const DEFAULT_CLOSE = '20:00';
 
     public const DEFAULT_DAYS = [1, 2, 3, 4, 5];
 
@@ -173,7 +173,6 @@ class AvailabilityService
 
         return match (true) {
             $hour < 12 => 'Morning',
-            $hour < 15 => 'Midday',
             $hour < 18 => 'Afternoon',
             default => 'Evening',
         };

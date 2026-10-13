@@ -77,7 +77,7 @@ class DatabaseSeeder extends Seeder
                     'clinic_id' => $clinic->id,
                     'day_of_week' => $day,
                     'open_time' => '10:00:00',
-                    'close_time' => '19:00:00',
+                    'close_time' => '20:00:00',
                     'slot_interval_minutes' => 30,
                 ]);
             }
